@@ -64,6 +64,12 @@ OC的弱引用是SideTable管理，是个全局三层散列表，weak_entry_t里
 
 
 
+#### iOS架构
+
+[iOS应用架构谈](https://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html)iOS架构师写的
+
+[跳出面向对象思想(一)继承](https://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html)但是一些基本体系的继承都在使用
+
 #### 源码解读
 
 [AFNetworking源码解读](https://awanglilong.github.io/2021/04/21/AFNetworking-code-read/)
@@ -84,21 +90,37 @@ OC的弱引用是SideTable管理，是个全局三层散列表，weak_entry_t里
 
 ### 面试问题
 
+[iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions)
+
+[iOS知识思维导图](https://github.com/MisterBooo/ReadyForBAT)
+
 [2020年iOS面试题总结](https://www.xuebaonline.com/2020%E5%B9%B4iOS%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93(%E4%B8%80)/)
 
 [2020年iOS面试题总结(二)](https://www.xuebaonline.com/2020%E5%B9%B4iOS%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93(%E4%BA%8C)/)
 
 [2020年iOS面试题总结(三)](https://www.xuebaonline.com/2020%E5%B9%B4iOS%E9%9D%A2%E8%AF%95%E9%A2%98%E6%80%BB%E7%BB%93(%E4%B8%89)/)
 
-[iOSInterviewQuestions](https://github.com/ChenYilong/iOSInterviewQuestions)
-
-[iOS知识思维导图](https://github.com/MisterBooo/ReadyForBAT)
-
 [出一套 iOS 高级面试题](https://juejin.cn/post/6844903645243260941#heading-2)
 
-[iOS应用架构谈](https://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html)iOS架构师写的
+[iOS面试了20几家总结出来的面试题（一）](https://juejin.cn/post/6854573212165111822)
 
-[跳出面向对象思想(一)继承](https://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html)但是一些基本体系的继承都在使用
+[iOS面试了20几家总结出来的面试题（二）](https://juejin.cn/post/6854573212169142285#heading-15)
+
+[阿里、字节：一套高效的iOS面试题](https://juejin.cn/post/6844904064937902094#heading-19)
+
+[腾讯社招iOS面试记录](https://juejin.cn/post/6844903633117528078)
+
+[全新角度剖析--iOS面试](https://juejin.cn/post/6899689319809286158)
+
+[iOS面试珠玑](https://juejin.cn/post/6844903615157501965)
+
+[iOS 面试题整理](https://juejin.cn/post/6844903871219761165)
+
+[2020年面向iOS开发人员的知识点总结（更新中）](https://juejin.cn/post/6844904201328279565)
+
+[iOS 第二梯队面试败北感悟](https://juejin.cn/post/6844903591010910216)
+
+[进入大厂的面试经验](https://juejin.cn/post/6844904086358212621)
 
 ## 计算机基础
 
@@ -157,4 +179,3 @@ OC的弱引用是SideTable管理，是个全局三层散列表，weak_entry_t里
 [文件系统](https://www.cnblogs.com/xiaolincoding/p/13499209.html)
 
 [调度算法](https://www.cnblogs.com/xiaolincoding/p/13631224.html)
-
