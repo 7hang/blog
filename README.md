@@ -124,6 +124,8 @@ OC的弱引用是SideTable管理，是个全局三层散列表，weak_entry_t里
 
 ## 计算机基础
 
+[基础面试题](https://github.com/wolverinn/Waking-Up)
+
 ### 设计模式
 
 [设计模式SOLID原则](https://segmentfault.com/a/1190000023114300)
@@ -140,23 +142,15 @@ OC的弱引用是SideTable管理，是个全局三层散列表，weak_entry_t里
 
 ### 网络协议
 
-[IP 基础知识](https://www.cnblogs.com/xiaolincoding/p/12830287.html)
-
-[键入网址后，到网页显示](https://www.cnblogs.com/xiaolincoding/p/12508499.html)
-
-[TCP 三次握手和四次挥手](https://www.cnblogs.com/xiaolincoding/p/12638546.html)
-
-[三次握手四次挥手优化](https://www.cnblogs.com/xiaolincoding/p/13067971.html)
-
-[TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html)
-
-[HTTP简介](https://www.cnblogs.com/xiaolincoding/p/12442435.html)
-
-[HTTP/1.1 优化](https://www.cnblogs.com/xiaolincoding/p/14442218.html)
-
-[HTTPS原理简介](https://www.cnblogs.com/xiaolincoding/p/14274353.html)
-
-[基础面试题](https://github.com/wolverinn/Waking-Up)
+|                                                              |      |
+| ------------------------------------------------------------ | ---- |
+| [IP 基础知识](https://www.cnblogs.com/xiaolincoding/p/12830287.html) |      |
+| [键入网址后，到网页显示](https://www.cnblogs.com/xiaolincoding/p/12508499.html) |      |
+| [TCP 三次握手和四次挥手](https://www.cnblogs.com/xiaolincoding/p/12638546.html) |      |
+| [TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html) |      |
+| [HTTP简介](https://www.cnblogs.com/xiaolincoding/p/12442435.html) |      |
+| [HTTP/1.1 优化](https://www.cnblogs.com/xiaolincoding/p/14442218.html) |      |
+| [HTTPS原理简介](https://www.cnblogs.com/xiaolincoding/p/14274353.html) |      |
 
 ### 操作系统
 
