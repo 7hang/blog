@@ -160,16 +160,14 @@ OC的弱引用是SideTable管理，是个全局三层散列表，weak_entry_t里
 
 ### 操作系统
 
-[小林图解系统](https://github.com/awanglilong/blog/blob/main/%E7%B3%BB%E7%BB%9F/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F-%E5%B0%8F%E6%9E%97coding-v1.0.pdf) 网上唯一的成系统的，简单易懂的讲解操作系统文档。
-
-| 图解系统部分博客                                             |      |
-| ------------------------------------------------------------ | ---- |
-| [CPU 执行程序的](https://www.cnblogs.com/xiaolincoding/p/13796525.html) |      |
-| [内存管理](https://www.cnblogs.com/xiaolincoding/p/13213699.html) |      |
-| [进程、线程基础知识](https://www.cnblogs.com/xiaolincoding/p/13289992.html) |      |
-| [进程间通信](https://www.cnblogs.com/xiaolincoding/p/13402297.html) |      |
-| [调度算法](https://www.cnblogs.com/xiaolincoding/p/13631224.html) |      |
-| [文件系统](https://www.cnblogs.com/xiaolincoding/p/13499209.html) |      |
+| [小林图解系统](https://github.com/awanglilong/blog/blob/main/%E7%B3%BB%E7%BB%9F/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F-%E5%B0%8F%E6%9E%97coding-v1.0.pdf) | 成系统的，简单易懂的讲解操作系统文档。 |
+| ------------------------------------------------------------ | -------------------------------------- |
+| [CPU 执行程序的](https://www.cnblogs.com/xiaolincoding/p/13796525.html) |                                        |
+| [内存管理](https://www.cnblogs.com/xiaolincoding/p/13213699.html) |                                        |
+| [进程、线程基础知识](https://www.cnblogs.com/xiaolincoding/p/13289992.html) |                                        |
+| [进程间通信](https://www.cnblogs.com/xiaolincoding/p/13402297.html) |                                        |
+| [调度算法](https://www.cnblogs.com/xiaolincoding/p/13631224.html) |                                        |
+| [文件系统](https://www.cnblogs.com/xiaolincoding/p/13499209.html) |                                        |
 
 
 
