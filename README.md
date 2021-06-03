@@ -99,7 +99,7 @@
 | [调度算法](https://www.cnblogs.com/xiaolincoding/p/13631224.html) |                                        |
 | [文件系统](https://www.cnblogs.com/xiaolincoding/p/13499209.html) |                                        |
 
-
+重点：进程和线程，多线程编程，死锁！
 
 
 
