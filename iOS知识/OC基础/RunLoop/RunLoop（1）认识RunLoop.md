@@ -100,3 +100,8 @@ RunLoop就保证了这个交互中的所有事件处理，那么`RunLoop`能处�
 一旦有了RunLoop的加持后：
 
 ![image-20181224040906411](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2018-12-23-200907.png)
+
+
+
+[深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop/)
+
