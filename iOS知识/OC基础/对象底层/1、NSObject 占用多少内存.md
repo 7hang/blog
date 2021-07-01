@@ -1,5 +1,3 @@
-
-
 ### OC实现原理问题一：NSObject 占用多少内存
 
 ```c++
@@ -139,4 +137,24 @@ inline size_t instanceSize(size_t extraBytes) const {
     return size;
 }
 ```
+
+
+
+
+
+[对象是如何初始化的](https://draveness.me/object-init/)
+
+[从 NSObject 的初始化了解 isa](https://draveness.me/isa/)
+
+[深入解析 ObjC 中方法的结构](https://draveness.me/method-struct/)
+
+[从源代码看 ObjC 中消息的发送](https://draveness.me/message/)
+
+[你真的了解 load 方法么？](https://draveness.me/load/)
+
+[懒惰的 initialize 方法](https://draveness.me/initialize/)
+
+[如何实现 iOS 中的 Associated Object](https://draveness.me/retain-cycle3/)
+
+[上古时代 Objective-C 中哈希表的实现](https://draveness.me/hashtable/)
 

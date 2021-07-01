@@ -4,7 +4,7 @@
 
 如果用一句话概括，**Block是一个将函数及其执行上下文封装起来的对象**。
 
-## 1.1 [clang](https://clang.llvm.org/docs/Block-ABI-Apple.html)说Block是个对象
+## 1.1 Block是个对象
 
 - 是对象：其内部第一个成员为isa指针；
 - 封装了函数调用：Block内代码块，封装了函数调用，调用Block，就是调用该封装的函数；
@@ -13,8 +13,6 @@
 基于此，绘制了下图：
 
 ![block本质](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2018-12-06-092414.png)
-
-
 
 ## 1.2 验证
 
@@ -136,6 +134,8 @@ static struct __BlockStruct__test_block_desc_0 {
 
 Block本质是一个对象，那么在Block中访问全局变量以及局部变量，这个对象又是怎么处理这些变量的呢。
 
+
+
 我们将变量分为以下几种类型，在以下表格中的存储区域：
 
 | 类型     | 局部变量                                                     | 全局变量                                | 成员变量                                     |
@@ -160,6 +160,8 @@ Block本质是一个对象，那么在Block中访问全局变量以及局部变�
 
 我们在本文讨论Block对象**捕获基本类型**的情形。**另外需要提醒的是**，在捕获成员变量，即访问对象中属性或直接访问对象中成员变量的情形下，Block对象会做另外的处理。我们在后面篇章[Block（四）对象类型的auto变量](http://wenghengcong.com/posts/2acb8878/)中讨论。
 
+
+
 ## 2.1 各种变量如何被捕获
 
 我们下面见根据变量修饰符，来探查Block如何捕获不同修饰符的类型变量。
@@ -176,7 +178,7 @@ Block本质是一个对象，那么在Block中访问全局变量以及局部变�
 
 并得到如下结论：
 
-![block变量捕获规律](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2019-01-17-020635.png)
+<img src="https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2019-01-17-020635.png" alt="block变量捕获规律" style="zoom:50%;" />
 
 在Block对象中捕获变量的类型基于变量类型，注意在**局部变量中的异数：static变量**。
 

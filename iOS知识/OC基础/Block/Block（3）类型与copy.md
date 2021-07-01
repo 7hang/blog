@@ -61,7 +61,7 @@ void (^globalBlock1)(void) = ^{
 
 但是`__NSStackBlock`代码中赋值给**stackBlock1**在ARC下会自动转换为`__NSMallocBlock`。
 
-我们先梳理一下，什么情况下会将Block对象分配在栈上（`__NSGlobalBlock`），又是什么时候分配在数据段（`__NSStackBlock`）。
+我们先梳理一下，什么情况下会将Block对象分配在数据段（`__NSGlobalBlock`），又是什么时候分配在栈上（`__NSStackBlock`）。
 
 - 访问了auto变量就分配在`__NSStackBlock`；
 - 未访问auto变量将分配在`__NSGlobalBlock__`；
