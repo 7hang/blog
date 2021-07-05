@@ -22,6 +22,8 @@
 
 ## 1.2 ARC
 
+__weak修饰的变量会加到自动释放池中，防止被释放。
+
 ![image-20190107152241173](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2019-01-07-072241.png)
 
 ARC下，另外一个常见的使用——降低内存峰值
