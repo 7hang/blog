@@ -448,6 +448,12 @@ void weak_clear_no_lock(weak_table_t *weak_table, id referent_id)
 
 ![image-20190107022245529](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2019-01-06-182310.png)
 
+## 4.4野指针
+
+野指针就是内存被释放 ，但指针仍然指向内存块。而指向的内存可能重新分配，使用时就会出现野指针问题。
+
+
+
 # 五、图
 
 ## 5.1 对象结构图
