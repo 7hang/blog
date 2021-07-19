@@ -1,5 +1,7 @@
 # 内存管理（六）autorelease
 
+[自动释放池的前世今生 ---- 深入解析 autoreleasepool](https://draveness.me/autoreleasepool/)
+
 本文分为三部分：
 
 [一](https://wenghengcong.com/posts/c458827d/#一、自动释放池)、[二](https://wenghengcong.com/posts/c458827d/#二、autorelease与方法返回值)两节主要讲述自动释放池的概念和应用，其中二中还详述了autorelease与方法返回值的关系。
@@ -29,6 +31,8 @@ __weak修饰的变量会加到自动释放池中，防止被释放。
 ARC下，另外一个常见的使用——降低内存峰值
 
 ![image-20190107153428043](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/2019-01-07-073502.png)
+
+
 
 # 二、autorelease与方法返回值
 
