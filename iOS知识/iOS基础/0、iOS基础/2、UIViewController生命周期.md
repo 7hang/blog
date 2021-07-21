@@ -23,6 +23,7 @@
     return self;
 }
 
+/* UIViewController自己的*/
 - (void)loadView {
     [super loadView];
     NSLog(@"========   加载视图： loadView   =======\n");
@@ -63,11 +64,12 @@
     [super viewDidDisappear:animated];
     NSLog(@"========   视图已经消失： viewDidDisappear:(BOOL)animated   =======\n");
 }
+/* UIViewController自己的*/
 
 - (void)dealloc {
     NSLog(@"========   释放： dealloc   =======\n");
 }
-复制代码
+
 ```
 
 看到这么多的函数是不是感觉理解起来很复杂，其实从上往下看一遍之后就可以了解到他们关系其实很明朗。我们运行一下看看他们之间的调用顺序：

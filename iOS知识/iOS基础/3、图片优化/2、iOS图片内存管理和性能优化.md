@@ -116,44 +116,93 @@ UIKIT_EXTERN NSData * __nullable UIImageJPEGRepresentation(UIImage * __nonnull i
 
 ### 一、对不常用的大图片，使用 `imageWithContentsOfFile` 代替 `imageNamed` 方法，避免内存缓存（相应的使用`imageNamed`要避免载入大量的图片造成内存暴增）
 
-### 二、使用 ImageIO 方法，对大图片进行缩放，减少图片解码占用内存大小。
+这是个老生常谈的问题了，我就简单说下，使用UIImage的imageNamed方法的时候，为了下次加快渲染速度，会缓存图片内存，所以对于使用不频繁的大图片进行缓存，非常耗费内存，可以使用imageWithContentsOfFile方法进行替换。
+
+### 二、使用 ImageIO 方法，对大图片进行缩放，减少图片解码占用内存大小。(超大图片处理)
 
 UIImage 在设置和调整大小的时候，需要将原始图像加压到内存中，然后对内部坐标空间做一系列转换，整个过程会消耗很多资源。我们可以使用 ImageIO，它可以直接读取图像大小和元数据信息，不会带来额外的内存开销。
 
+这是( [WWDC2018 图像最佳实践](https://links.jianshu.com/go?to=https%3A%2F%2Fjuejin.im%2Fpost%2F5b1a7c2c5188257d5a30c820)）中推荐的方法，可以使用这个方法对图片进行缩放,UIImage 在设置和调整大小的时候，需要将原始图像加压到内存中，然后对内部坐标空间做一系列转换，整个过程会消耗很多资源。我们可以使用 ImageIO，它可以直接读取图像大小和元数据信息，不会带来额外的内存开销。
+ 这是官方的实例的Swift代码：
+
+```swift
+func downsample(imageAt imageURL: URL, to pointSize: CGSize, scale: CGFloat) -> UIImage {
+
+    //生成CGImageSourceRef 时，不需要先解码。
+    let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+    let imageSource = CGImageSourceCreateWithURL(imageURL as CFURL, imageSourceOptions)!
+    let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
+    
+    //kCGImageSourceShouldCacheImmediately 
+    //在创建Thumbnail时直接解码，这样就把解码的时机控制在这个downsample的函数内
+    let downsampleOptions = [kCGImageSourceCreateThumbnailFromImageAlways: true,
+                                 kCGImageSourceShouldCacheImmediately: true,
+                                 kCGImageSourceCreateThumbnailWithTransform: true,
+                                 kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels] as CFDictionary
+    //生成
+    let downsampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+    return UIImage(cgImage: downsampledImage)
+}
+```
+
+这是一种OC代码实现：
+
+```objectivec
+- (UIImage *)resizeScaleImage:(CGFloat)scale {
+    
+    CGSize imgSize = self.size;
+    CGSize targetSize = CGSizeMake(imgSize.width * scale, imgSize.height * scale);
+    NSData *imageData = UIImageJPEGRepresentation(self, 1.0);
+    CFDataRef data = (__bridge CFDataRef)imageData;
+    
+    CFStringRef optionKeys[1];
+    CFTypeRef optionValues[4];
+    optionKeys[0] = kCGImageSourceShouldCache;
+    optionValues[0] = (CFTypeRef)kCFBooleanFalse;
+    CFDictionaryRef sourceOption = CFDictionaryCreate(kCFAllocatorDefault, (const void **)optionKeys, (const void **)optionValues, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData(data, sourceOption);
+    CFRelease(sourceOption);
+    if (!imageSource) {
+        NSLog(@"imageSource is Null!");
+        return nil;
+    }
+    //获取原图片属性
+    int imageSize = (int)MAX(targetSize.height, targetSize.width);
+    CFStringRef keys[5];
+    CFTypeRef values[5];
+    //创建缩略图等比缩放大小，会根据长宽值比较大的作为imageSize进行缩放
+    keys[0] = kCGImageSourceThumbnailMaxPixelSize;
+    CFNumberRef thumbnailSize = CFNumberCreate(NULL, kCFNumberIntType, &imageSize);
+    values[0] = (CFTypeRef)thumbnailSize;
+    keys[1] = kCGImageSourceCreateThumbnailFromImageAlways;
+    values[1] = (CFTypeRef)kCFBooleanTrue;
+    keys[2] = kCGImageSourceCreateThumbnailWithTransform;
+    values[2] = (CFTypeRef)kCFBooleanTrue;
+    keys[3] = kCGImageSourceCreateThumbnailFromImageIfAbsent;
+    values[3] = (CFTypeRef)kCFBooleanTrue;
+    keys[4] = kCGImageSourceShouldCacheImmediately;
+    values[4] = (CFTypeRef)kCFBooleanTrue;
+    
+    CFDictionaryRef options = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 4, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    CGImageRef thumbnailImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options);
+    UIImage *resultImg = [UIImage imageWithCGImage:thumbnailImage];
+    
+    CFRelease(thumbnailSize);
+    CFRelease(options);
+    CFRelease(imageSource);
+    CFRelease(thumbnailImage);
+    
+    return resultImg;
+}
+```
+
+如果你还想学习更多的ImageIO的方法和参数使用，可以参考这篇文章[iOS中ImageIO框架详解与应用分析](https://links.jianshu.com/go?to=https%3A%2F%2Fmy.oschina.net%2Fu%2F2340880%2Fblog%2F838680)
+如果你想自己测试一下内存占用效果，可以使用instruments 中的VMTracker进行测试，具体测试方法，可以看下这篇文章[iOS中的图片使用方式、内存对比和最佳实践](
+
 ### 三、绘制图片，用 UIGraphicsImageRenderer 代替 UIGraphicsBeginImageContextWithOptions，自动管理颜色格式
 
-### 四、超大图片处理
-
-1. 加载使用苹果推荐的DownSampling方案（缩略图方式）
-
-   ```swift
-    // DownSampling（降低采样）
-    // 在视图比较小，图片比较大的场景下，直接展示原图片会造成不必要的内存和CPU消耗，这里就可以使用ImageIO的接口，DownSampling，也就是生成缩略图
-    func downsample(imageAt imageURL: URL, to pointSize: CGSize, scale: CGFloat) -> UIImage
-    {
-        let sourceOpt = [kCGImageSourceShouldCache : false] as CFDictionary
-        /**<
-         这里有两个注意事项
-         
-         设置kCGImageSourceShouldCache为false，避免缓存解码后的数据，64位设置上默认是开启缓存的，（很好理解，因为下次使用该图片的时候，可能场景不同，需要生成的缩略图大小是不同的，显然不能做缓存处理）
-         设置kCGImageSourceShouldCacheImmediately为true，避免在需要渲染的时候才做解码，默认选项是false
-         */
-        // 其他场景可以用createwithdata (data并未decode,所占内存没那么大),
-        let source = CGImageSourceCreateWithURL(imageURL as CFURL, sourceOpt)!
-        
-        let maxDimension = max(pointSize.width, pointSize.height) * scale
-        let downsampleOpt = [kCGImageSourceCreateThumbnailFromImageAlways : true,
-                             kCGImageSourceShouldCacheImmediately : true ,
-                             kCGImageSourceCreateThumbnailWithTransform : true,
-                             kCGImageSourceThumbnailMaxPixelSize : maxDimension] as CFDictionary
-        let downsampleImage = CGImageSourceCreateThumbnailAtIndex(source, 0, downsampleOpt)!
-        return UIImage(cgImage: downsampleImage)
-    }
-   ```
-
-2. 使用苹果的CATiledLayer去加载。原理是分片渲染，滑动时通过指定目标位置，通过映射原图指定位置的部分图片数据解码渲染。这里不再累述，有兴趣的小伙伴可以自行了解下官方API。
-
-### 五、网络图片加载方式：使用SDwebImage等三方库
+这个方法是[WWDC 2018：iOS 内存深入研究](https://links.jianshu.com/go?to=https%3A%2F%2Fjuejin.im%2Fpost%2F5b23dafee51d4558e03cbf4f%23heading-25)推荐的方法，
+ 使用 UIGraphicsBeginImageContextWithOptions 生成的图片，每个像素需要 4 个字节表示。建议使用 UIGraphicsImageRenderer，这个方法是从 iOS 10 引入，在 iOS 12 上会自动选择最佳的图像格式，可以减少很多内存。系统可以根据图片分辨率选择创建解码图片的格式，如选用SRGB format 格式，每个像素占用 4 字节，而Alpha 8 format，每像素只占用 1 字节，可以减少大量的解码内存占用。
 
 ## 解决UIImageView的性能瓶颈
 
@@ -245,3 +294,4 @@ return newImage;
 [[SDImageCache sharedImageCache] setShouldDecompressImages:NO];
 [[SDWebImageDownloader sharedDownloader] setShouldDecompressImages:NO];
 ```
+
