@@ -30,8 +30,6 @@
 
 从上面的图中可以看到，CPU 和 GPU 不论哪个阻碍了显示流程，都会造成掉帧现象。所以开发时，也需要分别对 CPU 和 GPU 压力进行评估和优化。
 
-
-
 ### **CPU 资源消耗原因和解决方案**
 
 **对象创建**
@@ -118,21 +116,21 @@ CALayer 的 border、圆角、阴影、遮罩（mask），CASharpLayer 的矢量
 
 ### **ASDK 的基本原理**
 
-[![asdk_design](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_design.png)](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_design.png)
+![asdk_design](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/asdk_design.png)
 
 ASDK 认为，阻塞主线程的任务，主要分为上面这三大类。文本和布局的计算、渲染、解码、绘制都可以通过各种方式异步执行，但 UIKit 和 Core Animation 相关操作必需在主线程进行。ASDK 的目标，就是尽量把这些任务从主线程挪走，而挪不走的，就尽量优化性能。
 
 为了达成这一目标，ASDK 尝试对 UIKit 组件进行封装：
 
-[![asdk_layer_backed_view](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_layer_backed_view.png)](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_layer_backed_view.png)
+![asdk_layer_backed_view](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/asdk_layer_backed_view.png)
 
 这是常见的 UIView 和 CALayer 的关系：View 持有 Layer 用于显示，View 中大部分显示属性实际是从 Layer 映射而来；Layer 的 delegate 在这里是 View，当其属性改变、动画产生时，View 能够得到通知。UIView 和 CALayer 不是线程安全的，并且只能在主线程创建、访问和销毁。
 
-[![asdk_view_backed_node](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_view_backed_node.png)](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_view_backed_node.png)
+![asdk_view_backed_node](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/asdk_view_backed_node.png)
 
 ASDK 为此创建了 ASDisplayNode 类，包装了常见的视图属性（比如 frame/bounds/alpha/transform/backgroundColor/superNode/subNodes 等），然后它用 UIView->CALayer 相同的方式，实现了 ASNode->UIView 这样一个关系。
 
-[![asdk_layer_backed_node](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_layer_backed_node.png)](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_layer_backed_node.png)
+![asdk_layer_backed_node](https://raw.githubusercontent.com/awanglilong/blog/main/uPic/asdk_layer_backed_node.png)
 
 当不需要响应触摸事件时，ASDisplayNode 可以被设置为 layer backed，即 ASDisplayNode 充当了原来 UIView 的功能，节省了更多资源。
 
@@ -144,13 +142,11 @@ ASDK 为此创建了 ASDisplayNode 类，包装了常见的视图属性（比如
 
 ### **ASDK 的图层预合成**
 
-[![asdk_comoose_1](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_comoose_1.png)](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_comoose_1.png) [![asdk_compose_2](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_compose_2.png)](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_compose_2.png)
+![asdk_comoose_1](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_comoose_1.png) ![asdk_compose_2](https://blog.ibireme.com/wp-content/uploads/2015/11/asdk_compose_2.png)
 
 有时一个 layer 会包含很多 sub-layer，而这些 sub-layer 并不需要响应触摸事件，也不需要进行动画和位置调整。ASDK 为此实现了一个被称为 pre-composing 的技术，可以把这些 sub-layer 合成渲染为一张图片。开发时，ASNode 已经替代了 UIView 和 CALayer；直接使用各种 Node 控件并设置为 layer backed 后，ASNode 甚至可以通过预合成来避免创建内部的 UIView 和 CALayer。
 
 通过这种方式，把一个大的层级，通过一个大的绘制方法绘制到一张图上，性能会获得很大提升。CPU 避免了创建 UIKit 对象的资源消耗，GPU 避免了多张 texture 合成和渲染的消耗，更少的 bitmap 也意味着更少的内存占用。
-
-
 
 ### **ASDK 异步并发操作**
 
@@ -220,8 +216,6 @@ ASDK 中还有封装很多高级的功能，比如滑动列表的预加载、V2.
 
 使用 concurrent queue 时不可避免会遇到这种问题，但使用 serial queue 又不能充分利用多核 CPU 的资源。我写了一个简单的工具 [YYDispatchQueuePool](https://github.com/ibireme/YYDispatchQueuePool)，为不同优先级创建和 CPU 数量相同的 serial queue，每次从 pool 中获取 queue 时，会轮询返回其中一个 queue。我把 App 内所有异步操作，包括图像解码、对象释放、异步绘制等，都按优先级不同放入了全局的 serial queue 中执行，这样尽量避免了过多线程导致的性能问题。
 
-
-
 ### **更高效的异步图片加载**
 
 SDWebImage 在这个 Demo 里仍然会产生少量性能问题，并且有些地方不能满足我的需求，所以我自己实现了一个性能更高的图片加载库。在显示简单的单张图片时，利用 UIView.layer.contents 就足够了，没必要使用 UIImageView 带来额外的资源消耗，为此我在 CALayer 上添加了 setImageWithURL 等方法。除此之外，我还把图片解码等操作通过 YYDispatchQueuePool 进行管理，控制了 App 总线程数量。
@@ -248,6 +242,6 @@ SDWebImage 在这个 Demo 里仍然会产生少量性能问题，并且有些地
 
 如果你需要一个明确的 FPS 指示器，可以尝试一下 [KMCGeigerCounter](https://github.com/kconner/KMCGeigerCounter)。对于 CPU 的卡顿，它可以通过内置的 CADisplayLink 检测出来；对于 GPU 带来的卡顿，它用了一个 1×1 的 SKView 来进行监视。这个项目有两个小问题：SKView 虽然能监视到 GPU 的卡顿，但引入 SKView 本身就会对 CPU/GPU 带来额外的一点的资源消耗；这个项目在 iOS 9 下有一些兼容问题，需要稍作调整。
 
-我自己也写了个简单的 FPS 指示器：[FPSLabel](https://github.com/ibireme/YYText/blob/master/Demo/YYTextDemo/YYFPSLabel.m) 只有几十行代码，仅用到了 CADisplayLink 来监视 CPU 的卡顿问题。虽然不如上面这个工具完善，但日常使用没有太大问题。s
+我自己也写了个简单的 FPS 指示器：[FPSLabel](https://github.com/ibireme/YYText/blob/master/Demo/YYTextDemo/YYFPSLabel.m) 只有几十行代码，仅用到了 CADisplayLink 来监视 CPU 的卡顿问题。虽然不如上面这个工具完善，但日常使用没有太大问题。
 
 最后，用 Instuments 的 GPU Driver 预设，能够实时查看到 CPU 和 GPU 的资源消耗。在这个预设内，你能查看到几乎所有与显示有关的数据，比如 Texture 数量、CA 提交的频率、GPU 消耗等，在定位界面卡顿的问题时，这是最好的工具。
