@@ -161,8 +161,6 @@ Core Animation的绘制是通过Core Animation Pipeline实现，它以流水线�
 
 而ComponentKit则是通过创建Component来描述UI，它也是一个线程安全的类。可以将Component认为是一个刻板，而UIView是刻板下的一张纸，渲染则是喷墨的过程。当我们生成了一个Component的时候，就等于生成了一个View的模版，在进行渲染的时候只要按照模版进行绘制就可以了。复杂的界面可以通过各种简单的Component来组成。（类似于Flutter的widget）
 
-
-
 > 但是我……
 
 **闭嘴吧你**

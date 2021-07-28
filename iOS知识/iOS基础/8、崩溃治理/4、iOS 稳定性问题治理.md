@@ -29,21 +29,21 @@ Triggered by Thread:  0
 
 下面就其中最重要的前 4 行信息逐一解释：
 
-1. Exception Type
+1、Exception Type
 
 `EXC_CRASH`：Mach 层的异常类型，表示进程异常退出。
 
 `SIGKILL`：BSD 层的信号，表示进程被系统终止，而且这个信号不能被阻塞、处理和忽略。这时可以查看 `Termination Reason` 字段了解终止的原因。
 
-1. Exception Codes
+2、Exception Codes
 
 这个字段一般用不上，当崩溃报告包含一个未命名的异常类型时，这个异常类型将用这个字段表示，形式是十六进制数字。
 
-1. Exception Note
+3、Exception Note
 
 `EXC_CORPSE_NOTIFY` 和 `EXC_CRASH` 定义在同一个文件中，意思是进程异常进入 CORPSE 状态。
 
-1. Termination Reason
+4、Termination Reason
 
 这里主要关注 `Code 0x8badf00d`，可以在苹果的官方文档中查看到 `0x8badf00d` 意味着 App `ate bad food`，表示进程因为 `watchdog` 超时而被操作系统结束进程。通过上述已经信息可以得出 `watchdog` 崩溃的定义：
 

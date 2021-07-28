@@ -505,8 +505,6 @@ let link = CADisplayLink.init(target: LSLWeakProxy(target: self), selector: #sel
 
 结合这套方案，当主线程处在Before Waiting状态的时候，通过派发任务到主线程来设置标记位的方式处理常态下的卡顿检测：
 
-
-
 ```objective-c
 #define lsl_SEMAPHORE_SUCCESS 0
 static BOOL lsl_is_monitoring = NO;
