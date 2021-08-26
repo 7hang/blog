@@ -76,31 +76,6 @@
 
 [小浩算法](https://www.geekxh.com/)常见200算法题目解法
 
-### 网络协议
-
-| [图解网络协议](https://github.com/awanglilong/blog/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%BD%91%E7%BB%9C/%E5%9B%BE%E8%A7%A3%E7%BD%91%E7%BB%9C.pdf) | 成系统的，简单易懂的讲解网络协议。 |
-| ------------------------------------------------------------ | ---------------------------------- |
-| [IP 基础知识](https://www.cnblogs.com/xiaolincoding/p/12830287.html) |                                    |
-| [键入网址后，到网页显示](https://www.cnblogs.com/xiaolincoding/p/12508499.html) |                                    |
-| [TCP 三次握手和四次挥手](https://www.cnblogs.com/xiaolincoding/p/12638546.html) |                                    |
-| [TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html) |                                    |
-| [HTTP简介](https://www.cnblogs.com/xiaolincoding/p/12442435.html) |                                    |
-| [HTTP/1.1 优化](https://www.cnblogs.com/xiaolincoding/p/14442218.html) |                                    |
-| [HTTPS原理简介](https://www.cnblogs.com/xiaolincoding/p/14274353.html) |                                    |
-
-### 操作系统
-
-| [图解系统](https://github.com/awanglilong/blog/blob/main/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E7%B3%BB%E7%BB%9F/%E5%9B%BE%E8%A7%A3%E7%B3%BB%E7%BB%9F-%E5%B0%8F%E6%9E%97.pdf) | 成系统的，简单易懂的讲解操作系统文档。 |
-| ------------------------------------------------------------ | -------------------------------------- |
-| [CPU 执行程序的](https://www.cnblogs.com/xiaolincoding/p/13796525.html) |                                        |
-| [内存管理](https://www.cnblogs.com/xiaolincoding/p/13213699.html) |                                        |
-| [进程、线程基础知识](https://www.cnblogs.com/xiaolincoding/p/13289992.html) |                                        |
-| [进程间通信](https://www.cnblogs.com/xiaolincoding/p/13402297.html) |                                        |
-| [调度算法](https://www.cnblogs.com/xiaolincoding/p/13631224.html) |                                        |
-| [文件系统](https://www.cnblogs.com/xiaolincoding/p/13499209.html) |                                        |
-
-重点：进程和线程，多线程编程，死锁！
-
 
 
 
